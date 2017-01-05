@@ -15,6 +15,7 @@ class PurchaseRequest extends AbstractRequest
             'reason_1'          => $this->getDescription(),
             'user_variable_0'   => $this->getReturnUrl(),
             'user_variable_1'   => $this->getCancelUrl(),
+            'user_variable_2'   => $this->getNotifyUrl(),
             'hash'              => $this->computeHash(),
         ];
 
@@ -57,7 +58,7 @@ class PurchaseRequest extends AbstractRequest
                 '',                                       // reason_2
                 $this->getReturnUrl(),                    // user_variable_0
                 $this->getCancelUrl(),                    // user_variable_1
-                '',                                       // user_variable_2
+                $this->getNotifyUrl(),                    // user_variable_2
                 '',                                       // user_variable_3
                 '',                                       // user_variable_4
                 '',                                       // user_variable_5
