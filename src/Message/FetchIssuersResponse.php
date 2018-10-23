@@ -4,13 +4,13 @@ namespace Bamarni\Omnipay\Ideal\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RequestInterface;
-use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
 
 class FetchIssuersResponse extends AbstractResponse
 {
     protected $isSuccessful;
 
-    public function __construct(RequestInterface $request, Response $response)
+    public function __construct(RequestInterface $request, ResponseInterface $response)
     {
         parent::__construct($request, $this->decodeXml($response));
 
@@ -34,7 +34,7 @@ class FetchIssuersResponse extends AbstractResponse
         return $issuers;
     }
 
-    private function decodeXml(Response $response)
+    private function decodeXml(ResponseInterface $response)
     {
         $xml = null;
         $errorMessage = null;
