@@ -2,22 +2,22 @@
 
 namespace Bamarni\Omnipay\Ideal\Message;
 
+use GuzzleHttp\Psr7\Request;
+
 class FetchIssuersRequest extends AbstractRequest
 {
     public function sendData($data)
     {
-        $client = $this->httpClient;
-
-        $client->setDefaultOption('auth', array($this->getUserId(), $this->getApiKey(), 'Basic'));
-
-        $response = $client->createRequest('post', 'https://www.sofort.com/payment/ideal/banks',
+        $request = new Request(
+            'POST',
+            'https://www.sofort.com/payment/ideal/banks',
             [
-                'headers' => [
-                    'Content-Type' => 'application/xml; charset=UTF-8',
-                    'Accept'       => 'application/xml; charset=UTF-8',
-                ],
+                'Content-Type' => 'application/xml; charset=UTF-8',
+                'Accept'       => 'application/xml; charset=UTF-8',
             ]
-        )->send();
+        );
+
+        $response = $this->httpClient->request($request, ['auth' => [$this->getUserId(), $this->getApiKey(), 'Basic']]);
 
         return $this->response = new FetchIssuersResponse($this, $response);
     }
