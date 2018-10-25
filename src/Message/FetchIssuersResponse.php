@@ -14,7 +14,7 @@ class FetchIssuersResponse extends AbstractResponse
     {
         parent::__construct($request, $this->decodeXml($response));
 
-        $this->isSuccessful = ($this->statusCode >= 200 && $this->statusCode < 300) || $this->statusCode == 304;
+        $this->isSuccessful = ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) || $response->getStatusCode() == 304;
     }
 
     public function isSuccessful()
