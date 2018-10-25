@@ -6,18 +6,15 @@ class FetchIssuersRequest extends AbstractRequest
 {
     public function sendData($data)
     {
-        $client = $this->httpClient;
-
-        $client->setDefaultOption('auth', array($this->getUserId(), $this->getApiKey(), 'Basic'));
-
-        $response = $client->createRequest('post', 'https://www.sofort.com/payment/ideal/banks',
+        $response = $this->httpClient->request(
+            'POST',
+            'https://www.sofort.com/payment/ideal/banks',
             [
-                'headers' => [
-                    'Content-Type' => 'application/xml; charset=UTF-8',
-                    'Accept'       => 'application/xml; charset=UTF-8',
-                ],
+                'Content-Type'  => 'application/xml; charset=UTF-8',
+                'Accept'        => 'application/xml; charset=UTF-8',
+                'Authorization' => 'Basic ' . base64_encode($this->getUserId() . ':' . $this->getApiKey())
             ]
-        )->send();
+        );
 
         return $this->response = new FetchIssuersResponse($this, $response);
     }

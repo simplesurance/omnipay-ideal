@@ -2,6 +2,9 @@
 
 namespace Bamarni\Omnipay\Ideal;
 
+use Bamarni\Omnipay\Ideal\Message\CompleteAuthorizeRequest;
+use Bamarni\Omnipay\Ideal\Message\FetchIssuersRequest;
+use Bamarni\Omnipay\Ideal\Message\PurchaseRequest;
 use Omnipay\Common\AbstractGateway;
 
 class Gateway extends AbstractGateway
@@ -22,12 +25,12 @@ class Gateway extends AbstractGateway
 
     public function fetchIssuers(array $parameters = array())
     {
-        return $this->createRequest('\Bamarni\Omnipay\Ideal\Message\FetchIssuersRequest', $parameters);
+        return $this->createRequest(FetchIssuersRequest::class, $parameters);
     }
 
     public function purchase(array $parameters = array())
     {
-        return $this->createRequest('\Bamarni\Omnipay\Ideal\Message\PurchaseRequest', $parameters);
+        return $this->createRequest(PurchaseRequest::class, $parameters);
     }
 
     public function authorize(array $parameters = array())
@@ -37,6 +40,6 @@ class Gateway extends AbstractGateway
 
     public function completeAuthorize(array $parameters = array())
     {
-        return $this->createRequest('\Bamarni\Omnipay\Ideal\Message\CompleteAuthorizeRequest', $parameters);
+        return $this->createRequest(CompleteAuthorizeRequest::class, $parameters);
     }
 }
