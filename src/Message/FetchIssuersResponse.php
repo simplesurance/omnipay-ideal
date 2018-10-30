@@ -3,23 +3,24 @@
 namespace Bamarni\Omnipay\Ideal\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
+use Omnipay\Common\Message\FetchIssuersResponseInterface;
 use Omnipay\Common\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
 
-class FetchIssuersResponse extends AbstractResponse
+class FetchIssuersResponse extends AbstractResponse implements FetchIssuersResponseInterface
 {
-    protected $isSuccessful;
-
-    public function __construct(RequestInterface $request, ResponseInterface $response)
+    public function __construct(RequestInterface $request, string $data, int $statusCode)
     {
-        parent::__construct($request, $this->decodeXml($response));
+        $data = null;
+        if (($statusCode >= 200 && $statusCode < 300) || $statusCode == 304) {
+            $data = $this->decode($data);
+        }
 
-        $this->isSuccessful = ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) || $response->getStatusCode() == 304;
+        parent::__construct($request, $data);
     }
 
     public function isSuccessful()
     {
-        return $this->isSuccessful;
+        return is_object($this->data) && isset($this->data->banks->bank);
     }
 
     public function getIssuers()
@@ -34,7 +35,7 @@ class FetchIssuersResponse extends AbstractResponse
         return $issuers;
     }
 
-    private function decodeXml(ResponseInterface $response)
+    private function decode(string $data)
     {
         $xml = null;
         $errorMessage = null;
@@ -43,7 +44,7 @@ class FetchIssuersResponse extends AbstractResponse
         libxml_clear_errors();
 
         try {
-            $xml = new \SimpleXMLElement((string) $response->getBody() ?: '<root />', LIBXML_NONET);
+            $xml = new \SimpleXMLElement($data ?: '<root />', LIBXML_NONET);
             if ($error = libxml_get_last_error()) {
                 $errorMessage = $error->message;
             }
