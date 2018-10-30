@@ -8,7 +8,7 @@ use Omnipay\Common\Message\RequestInterface;
 
 class FetchIssuersResponse extends AbstractResponse implements FetchIssuersResponseInterface
 {
-    public function __construct(RequestInterface $request, string $data, int $statusCode)
+    public function __construct(RequestInterface $request, string $data = null, int $statusCode)
     {
         $data = null;
         if (($statusCode >= 200 && $statusCode < 300) || $statusCode == 304) {
