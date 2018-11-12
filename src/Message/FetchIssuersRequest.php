@@ -8,7 +8,7 @@ class FetchIssuersRequest extends AbstractRequest
     {
         $response = $this->httpClient->request($this->getHttpMethod(), $this->getEndpoint(), $this->getHeaders());
 
-        return $this->response = new FetchIssuersResponse($this, $data, $response->getStatusCode());
+        return $this->response = new FetchIssuersResponse($this, $response->getBody()->getContents(), $response->getStatusCode());
     }
 
     private function getHeaders()
