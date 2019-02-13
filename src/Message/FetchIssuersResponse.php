@@ -10,7 +10,7 @@ class FetchIssuersResponse extends AbstractResponse implements FetchIssuersRespo
 {
     public function __construct(RequestInterface $request, string $data = null, int $statusCode)
     {
-        if (!empty($data) && ($statusCode >= 200 && $statusCode < 300) || $statusCode == 304) {
+        if (!empty($data) && (($statusCode >= 200 && $statusCode < 300) || $statusCode === 304)) {
             $data = $this->decode($data);
         }
 
